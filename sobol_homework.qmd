@@ -3,6 +3,7 @@ title: "Sobol Sensitivity Analysis Assignment"
 author: "Bailey Jørgensen"
 format: html
 editor: visual
+embed-resources: true
 ---
 
 ## Assignment Part 1:
