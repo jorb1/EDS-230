@@ -103,6 +103,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="assignment-part-1" class="level2">
+<h2 class="anchored" data-anchor-id="assignment-part-1">Assignment Part 1:</h2>
+<p>For part 1 of this assignment, I chose to read “Exploring snow model parameter sensitivity using Sobol variance decomposition” by Houle, Livneh, and Kasprzk. Using the Sobol sensitivity analysis, the authors consider 7 snowy regions in the United States, and use the Variable Infiltration Capacity (VIC) and SNOW-17 models. They test the performance of these two models to find out their global sensitivity analysis, and also the temperature warming analysis. In the face of climate change, they are testing to find out which model is sensitive enough to the warming effects expected of climate change. They found that both models generally performed similarly, but that SNOW-17 was not as sensitive to the temperature warming analysis. Therefore, VIC is a more reliable model when it comes to analyzing how snowpack is affected by warming temperatures. A quote from page 157 of the paper: “Detailed comparison across two snow models demonstrates baseline results of SNOW-17 generally perform better for shallower snowpacks, while VIC performs better for deep snowpacks. In both models, different climate regimes end up having different sensitivity patterns. SNOW-17 achieves better PEAK objective function values across all sites; yet, the constrained albedo analysis results suggest that the user-selected Sobol’ parameter ranges dictate VIC performance with respect to PEAK. However, results indicate the two models are capable of producing similar objective function values for SCD, NSE, and RMSE.”</p>
+</section>
 <section id="assignment-part-2" class="level2">
 <h2 class="anchored" data-anchor-id="assignment-part-2">Assignment Part 2:</h2>
 <p><strong>A)</strong></p>
@@ -146,30 +150,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>sens_Catm_Sobol<span class="sc">$</span>S</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     original         bias std. error   min. c.i. max. c.i.
-X1 0.04717042 -0.003350646 0.03005223 -0.01245758 0.1156064
-X2 0.04464113 -0.003192122 0.03007472 -0.01574619 0.1119709
-X3 0.80970234 -0.002183268 0.01056573  0.78770939 0.8344801
-X4 0.20148974 -0.003159941 0.02775248  0.14856179 0.2715378</code></pre>
+X1 0.05603365 0.0015723296 0.02937218 -0.01315579 0.1091468
+X2 0.05419010 0.0014542456 0.02959990 -0.01437535 0.1085657
+X3 0.81519581 0.0009419136 0.00973721  0.79551249 0.8324884
+X4 0.21412257 0.0049002847 0.02976108  0.13954487 0.2692793</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># useful to add names</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(sens_Catm_Sobol<span class="sc">$</span>S) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(parms)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>sens_Catm_Sobol<span class="sc">$</span>S</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         original         bias std. error   min. c.i. max. c.i.
-k_o    0.04717042 -0.003350646 0.03005223 -0.01245758 0.1156064
-k_d    0.04464113 -0.003192122 0.03007472 -0.01574619 0.1119709
-v      0.80970234 -0.002183268 0.01056573  0.78770939 0.8344801
-height 0.20148974 -0.003159941 0.02775248  0.14856179 0.2715378</code></pre>
+k_o    0.05603365 0.0015723296 0.02937218 -0.01315579 0.1091468
+k_d    0.05419010 0.0014542456 0.02959990 -0.01437535 0.1085657
+v      0.81519581 0.0009419136 0.00973721  0.79551249 0.8324884
+height 0.21412257 0.0049002847 0.02976108  0.13954487 0.2692793</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># total effect - accounts for parameter interactions</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(sens_Catm_Sobol<span class="sc">$</span>T) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(parms)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>sens_Catm_Sobol<span class="sc">$</span>T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           original         bias   std. error    min. c.i.    max. c.i.
-k_o    1.383703e-03 8.572762e-07 9.980946e-05 1.192226e-03 1.600646e-03
-k_d    2.812679e-05 8.765181e-08 1.872666e-06 2.352723e-05 3.204807e-05
-v      7.876156e-01 1.285469e-03 2.818906e-02 7.224608e-01 8.350258e-01
-height 1.744861e-01 4.120367e-04 9.423528e-03 1.524962e-01 1.930627e-01</code></pre>
+<pre><code>           original          bias   std. error    min. c.i.    max. c.i.
+k_o    1.638965e-03  1.549281e-05 1.314792e-04 1.305943e-03 1.858194e-03
+k_d    2.762455e-05  7.813358e-08 1.752586e-06 2.400311e-05 3.087998e-05
+v      7.731279e-01 -6.883316e-04 2.926710e-02 7.188114e-01 8.440943e-01
+height 1.841453e-01  1.332999e-03 1.036916e-02 1.615901e-01 2.019988e-01</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Both the main effect and total effect can tell us something about how the parameter influences results</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -182,21 +186,21 @@ sobolSalt(model = NULL, X1 = X1, X2 = X2, nboot = 100)
 
 Model runs: 6000 
 
-Model variance: 4398070 
+Model variance: 4606780 
 
 First order indices:
          original         bias std. error   min. c.i. max. c.i.
-k_o    0.04717042 -0.003350646 0.03005223 -0.01245758 0.1156064
-k_d    0.04464113 -0.003192122 0.03007472 -0.01574619 0.1119709
-v      0.80970234 -0.002183268 0.01056573  0.78770939 0.8344801
-height 0.20148974 -0.003159941 0.02775248  0.14856179 0.2715378
+k_o    0.05603365 0.0015723296 0.02937218 -0.01315579 0.1091468
+k_d    0.05419010 0.0014542456 0.02959990 -0.01437535 0.1085657
+v      0.81519581 0.0009419136 0.00973721  0.79551249 0.8324884
+height 0.21412257 0.0049002847 0.02976108  0.13954487 0.2692793
 
 Total indices:
-           original         bias   std. error    min. c.i.    max. c.i.
-k_o    1.383703e-03 8.572762e-07 9.980946e-05 1.192226e-03 1.600646e-03
-k_d    2.812679e-05 8.765181e-08 1.872666e-06 2.352723e-05 3.204807e-05
-v      7.876156e-01 1.285469e-03 2.818906e-02 7.224608e-01 8.350258e-01
-height 1.744861e-01 4.120367e-04 9.423528e-03 1.524962e-01 1.930627e-01</code></pre>
+           original          bias   std. error    min. c.i.    max. c.i.
+k_o    1.638965e-03  1.549281e-05 1.314792e-04 1.305943e-03 1.858194e-03
+k_d    2.762455e-05  7.813358e-08 1.752586e-06 2.400311e-05 3.087998e-05
+v      7.731279e-01 -6.883316e-04 2.926710e-02 7.188114e-01 8.440943e-01
+height 1.841453e-01  1.332999e-03 1.036916e-02 1.615901e-01 2.019988e-01</code></pre>
 </div>
 </div>
 <p><strong>C)</strong></p>
@@ -253,21 +257,21 @@ sobolSalt(model = NULL, X1 = X1, X2 = X2, nboot = 100)
 
 Model runs: 6000 
 
-Model variance: 4398070 
+Model variance: 4606780 
 
 First order indices:
-     original          bias  std. error   min. c.i. max. c.i.
-X1 0.04717042 -0.0019647700 0.028853591 -0.01543840 0.1126833
-X2 0.04464113 -0.0017619218 0.028573492 -0.01752698 0.1072903
-X3 0.80970234 -0.0008929960 0.009651111  0.78955598 0.8319477
-X4 0.20148974 -0.0008159249 0.028636116  0.14000204 0.2553465
+     original          bias std. error   min. c.i. max. c.i.
+X1 0.05603365 -0.0017654061 0.03350576 -0.01047592 0.1265378
+X2 0.05419010 -0.0016088074 0.03321447 -0.01038019 0.1237653
+X3 0.81519581  0.0001822708 0.01130206  0.79687035 0.8396870
+X4 0.21412257 -0.0054369457 0.03035352  0.16890722 0.2788715
 
 Total indices:
-       original          bias   std. error    min. c.i.    max. c.i.
-X1 1.383703e-03  8.122802e-06 9.241275e-05 1.196738e-03 1.563594e-03
-X2 2.812679e-05 -4.422400e-08 1.732674e-06 2.460276e-05 3.123666e-05
-X3 7.876156e-01  4.579107e-04 3.092499e-02 7.283779e-01 8.618702e-01
-X4 1.744861e-01  1.050007e-04 8.678949e-03 1.551464e-01 1.910561e-01</code></pre>
+       original         bias   std. error    min. c.i.    max. c.i.
+X1 1.638965e-03 1.028539e-05 1.285183e-04 1.291512e-03 1.858030e-03
+X2 2.762455e-05 2.221230e-07 2.086974e-06 2.284749e-05 3.095081e-05
+X3 7.731279e-01 1.019838e-03 3.163701e-02 7.107350e-01 8.326819e-01
+X4 1.841453e-01 1.350281e-03 1.244157e-02 1.518217e-01 2.064821e-01</code></pre>
 </div>
 </div>
 <p><strong>F)</strong></p>

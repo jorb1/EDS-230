@@ -5,6 +5,10 @@ format: html
 editor: visual
 ---
 
+## Assignment Part 1:
+For part 1 of this assignment, I chose to read “Exploring snow model parameter sensitivity using Sobol variance decomposition” by Houle, Livneh, and Kasprzk. Using the Sobol sensitivity analysis, the authors consider 7 snowy regions in the United States, and use the Variable Infiltration Capacity (VIC) and SNOW-17 models. They test the performance of these two models to find out their global sensitivity analysis, and also the temperature warming analysis. In the face of climate change, they are testing to find out which model is sensitive enough to the warming effects expected of climate change. They found that both models generally performed similarly, but that SNOW-17 was not as sensitive to the temperature warming analysis. Therefore, VIC is a more reliable model when it comes to analyzing how snowpack is affected by warming temperatures. A quote from page 157 of the paper: “Detailed comparison across two snow models demonstrates baseline results of SNOW-17 generally perform better for shallower snowpacks, while VIC performs better for deep snowpacks. In both models, different climate regimes end up having different sensitivity patterns. SNOW-17 achieves better PEAK objective function values across all sites; yet, the constrained albedo analysis results suggest that the user-selected Sobol’ parameter ranges dictate VIC performance with respect to PEAK. However, results indicate the two models are capable of producing similar objective function values for SCD, NSE, and RMSE.”
+
+
 ## Assignment Part 2:
 
 ```{r setup, include=FALSE}
