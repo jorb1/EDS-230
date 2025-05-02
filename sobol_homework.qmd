@@ -1,0 +1,123 @@
+---
+title: "Sobol Sensitivity Analysis Assignment"
+author: "Bailey Jørgensen"
+format: html
+editor: visual
+---
+
+## Assignment Part 2:
+
+```{r setup, include=FALSE}
+# Load libraries
+knitr::opts_chunk$set(echo = TRUE)
+library(sensitivity)
+library(tidyverse)
+library(gridExtra)
+library(purrr)
+library(ggpubr)
+library(here)
+```
+
+**A)**
+
+```{r}
+# Source the Catm funtion
+source(here("Catm.R"))
+
+# Generate two examples of random number from parameter distributions
+np <- 1000
+k_o <- rnorm(mean = 0.1, sd = 0.01 * 0.1, n = np)
+k_d <- rnorm(mean = 0.7, sd = 0.01 * 0.1, n = np)
+v <- rnorm(mean = 300, sd = 50, n = np)
+height <- runif(min = 3.5, max = 5.5, n = np)
+
+X1 <- cbind.data.frame(k_o, k_d, v, height = height)
+
+# repeat sampling
+k_o <- rnorm(mean = 0.1, sd = 0.01 * 0.01, n = np)
+k_d <- rnorm(mean = 0.7, sd = 0.01 * 0.01, n = np)
+v <- rnorm(mean = 300, sd = 50, n = np)
+height <- runif(min = 3.5, max = 5.5, n = np)
+
+X2 <- cbind.data.frame(k_o, k_d, v, height = height)
+
+# Jansen Sobol approach
+sens_Catm_Sobol <- sobolSalt(model = NULL, X1, X2, nboot = 100)
+```
+
+**B)**
+
+```{r, sobolrun}
+# run model for all parameter sets
+# make sure you give the parameters names
+
+parms <- as.data.frame(sens_Catm_Sobol$X)
+colnames(parms) <- colnames(X1)
+res <- pmap_dbl(parms, Catm)
+
+
+sens_Catm_Sobol <- sensitivity::tell(sens_Catm_Sobol, res, res.names = "ga")
+
+# main effect:  partitions variance (main effect without co-variance) - sums approximately to one
+sens_Catm_Sobol$S
+# useful to add names
+row.names(sens_Catm_Sobol$S) <- colnames(parms)
+sens_Catm_Sobol$S
+
+# total effect - accounts for parameter interactions
+row.names(sens_Catm_Sobol$T) <- colnames(parms)
+sens_Catm_Sobol$T
+
+# Both the main effect and total effect can tell us something about how the parameter influences results
+
+
+print(sens_Catm_Sobol)
+```
+
+**C)**
+
+```{r, sobolplot}
+# graph two most sensitive parameters
+both <- cbind.data.frame(parms, gs = sens_Catm_Sobol$y)
+
+# look at overall gs sensitvity to uncertainty
+ggplot(both, aes(x = gs)) +
+  geom_histogram() +
+  geom_vline(xintercept = mean(both$gs), col = "cyan") +
+  labs(title = "Conductance estimates that account for parameter uncertainty",
+       x = "Conductance (mm/s)",
+       y = "Count") +
+  theme_bw()
+```
+
+**D)**
+
+```{r}
+# look at response of conductance to the two interesting variables
+ggplot(both, aes(v, gs, col = height)) +
+  geom_point() +
+  labs(title = "Conductance relating to windspeed and vegetation height",
+    y = "Conductance (mm/s)", 
+    x = "Windspeed",
+    color = "Vegetation height (m)") +
+  theme_bw()
+
+```
+
+**E)**
+
+```{r}
+# Estimate the Sobol indices of my output
+sens_Catm_Sobol <- sensitivity::tell(sens_Catm_Sobol, res, res.names = "ga")
+print(sens_Catm_Sobol)
+```
+
+
+**F)**
+
+*Based on the results, it seems that both windspeed and vegetation have an effect on conductance. In the class example, windspeed and vegetation height didn't have as strong of an effect. Based on this, perhaps shorter vegetation reduces resistance from the surface, so windspeed is able to increase. So, the model is sensitive to both windspeed and vegetation height, with windspeed being the thing it is most sensitive to.*
+
+
+
+
+
